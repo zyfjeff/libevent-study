@@ -125,7 +125,7 @@ void event_base_dump_events( struct event_base *base, FILE *f);
 //回调函数的函数原型声明                         
 typedef void (*event_callback_fn)(evutil_socket_t, short, void *);
 
-//创建事件 what就是上述的事件类型
+//创建任意类型的事件 what就是上述的事件类型
 struct event *event_new(struct event_base *base, evutil_socket_t fd,short what, event_callback_fn cb,void *arg);         
 
 //销毁事件
@@ -133,8 +133,28 @@ void event_free(struct event *event);
 
 //所有新创建的事件都处于已初始化和非未决状态，调用event_add（）可以使其成为未决的
 
+//创建超时事件,不需要fd,设置fd为-1即可
+#define evtimer_new(base, callback, arg) event_new((base),  ‐1, 0, (callback),(arg))                                    #define evtimer_add(ev, tv) event_add((ev),(tv))                                                       
+#define evtimer_del(ev) event_del(ev)                                                       
+#define evtimer_pending(ev, what, tv_out) event_pending((ev), (what), (tv_out))
+
+//创建信号事件
+#define evsignal_new(base, signum, callback, arg) event_new(base, signum, EV_SIGNAL|EV_PERSIST, cb, arg)
 
 
+//在栈上分配，或者静态分配
+int event_assign(struct event *event,struct event_base *base,evutil_socket_t fd, short what,void (*callback)(evutil_socket_t,short, void *), void *arg);
 
+//返回event结构体保留的字节数
+size _t event_get_struct_event_size(void);
 
+//将创建的事件变成为未决的
+int event_add(struct event *ev, const struct timeval *tv);
+
+//对已经初始化的事件调用，使其变成非未决的和非激活的
+int event_del( struct event *ev);
+
+//多个事件同时触发时，libevent没有定义各个回调的执行次序。可以使用优先级来定义某些事件比
+其他事件更重要
+int event_priority_set(struct event *event, in t priority);
 
