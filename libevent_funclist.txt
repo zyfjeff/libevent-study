@@ -158,3 +158,24 @@ int event_del( struct event *ev);
 其他事件更重要
 int event_priority_set(struct event *event, in t priority);
 
+//设置公用超时值
+const struct timeval *event_base_init_common_timeout(struct event_base *base, const struct timeval *duration);
+
+//设置fd为非阻塞 =>O_NONBLOCK
+int evutil_make_socket_nonblocking(evutil_socket_t sock);
+
+//设置套接字可重用选项 => SO_REUSEADDR
+int evutil_make_listen_socket_reuseable(evutil_socket_t sock);
+
+//调用exec关闭fd =>FD_CLOEXEC
+int evutil_make_socket_closeonexec(evutil_socket_t sock);
+
+//套接字缓冲区
+struct bufferevent *bufferevent_socket_new(srruct event_base *base,evutil_socket_t fd,enum bufferevent_options options);
+
+//bufferevent_socket_new 基于主机名创建基于套接字缓冲区
+int bufferevent_socket_connect_hostname(struct bufferevent *bev,struct evdns_base *dns_base, int family, const char*hostname,int port);
+
+int bufferevent_socket_get_dns_error(struct bufferevent *bev);
+
+
