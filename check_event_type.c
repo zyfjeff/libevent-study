@@ -1,7 +1,6 @@
 /*
  *	检查事件类型
- *
- */ 
+ */
 
 #include <event2/event.h>
 #include <stdio.h>
@@ -9,30 +8,18 @@
 
 #define ERR_EXIT(msg) do{perror(msg);exit(EXIT_FAILURE);}while(0)
 
-void cb_func(evutil_socket_t fd, short what, void *arg)                                   
-{                                                        
-         const char *data = arg;                                                         
-         printf("Got an event on socket %d:%s%s%s%s [%s]\n",                                  
-             (int) fd,                                                         
-             (what&EV_TIMEOUT) ? " timeout" : "",                                           
-             (what&EV_READ)     ? " read" : "",                                              
-             (what&EV_WRITE)    ? " write" : "",                                             
-             (what&EV_SIGNAL)   ? " signal" : "",                                            
-             data);                                                         
-} 
-
-
-
-
-/*
-void cb_func(evutil_socket_t fd,short what,void *arg)
+void cb_func(evutil_socket_t fd, short what, void *arg)
 {
-	const char* data = arg;
-	//打印事件的类型和传递过来的数据
-printf("Got an event on socket %d:%s%s%s%s [%s]",(int)fd,(what & EV_TIMEOUT)? : "timeout" : " ";,(what&EV_READ)? : "read" : " ",(what&EV_WRITE)? : "write" : " ",(what&EV_SIGNAL)? : "signal" : " ",data);
+         const char *data = arg;
+         printf("Got an event on socket %d:%s%s%s%s [%s]\n",
+             (int) fd,
+             (what&EV_TIMEOUT) ? " timeout" : "",
+             (what&EV_READ)     ? " read" : "",
+             (what&EV_WRITE)    ? " write" : "",
+             (what&EV_SIGNAL)   ? " signal" : "",
+             data);
 }
 
-*/
 void main_loop(evutil_socket_t fd2)
 {
 	struct event *ev1,*ev2;

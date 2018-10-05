@@ -1,2 +1,14 @@
-# libevent-study
-学习libevent库的基本使用和一些学习笔记
+# libevent-notes
+Libevent notes
+
+## 开启debug日志功能
+
+```
+#define EVENT_DBG_NONE 0
+#define EVENT_DBG_ALL 0xffffffffu
+
+void event_enable_debug_logging(ev_uint32_t which);
+```
+
+
+
